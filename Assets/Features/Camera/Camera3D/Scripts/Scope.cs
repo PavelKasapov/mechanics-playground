@@ -7,7 +7,8 @@ namespace MechanicsPlayground.Camera3D
     {
         protected override void Configure(IContainerBuilder builder)
         {
-            builder.Register<MechanicsPlayground.Camera3D.Controller>(Lifetime.Singleton);
+            builder.RegisterEntryPoint<Controller>(Lifetime.Singleton);
+            builder.Register<InputAdapter>(Lifetime.Singleton);
         }
     }
 }

@@ -1,3 +1,4 @@
+using UnityEngine;
 using VContainer.Unity;
 
 namespace MechanicsPlayground.Core
@@ -10,11 +11,13 @@ namespace MechanicsPlayground.Core
         public FeatureManager(LifetimeScope gameScope)
         {
             _gameScope = gameScope;
+            Debug.Log(1);
         }
 
         public void Initialize()
         {
             TestRun();
+            Debug.Log(2);
         }
 
         private void Activate3DCamera()
