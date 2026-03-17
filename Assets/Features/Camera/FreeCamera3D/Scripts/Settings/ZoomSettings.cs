@@ -1,12 +1,19 @@
-using System;
+using MechanicsPlayground.Core;
+using System.Collections.Generic;
 
 namespace MechanicsPlayground.FreeCamera3D
 {
-    [Serializable]
-    public class ZoomSettings
+    public class ZoomSettings : ISettings
     {
-        public float zoomMultiplier = 3f;
-        public float zoomChangingSpeed = 1f;
-        public float smoothTime = 0.2f;
+        public FloatSettingDescriptor zoomMultiplier = new ("Zoom Multiplayer", 3f, 1.5f, 6f, 0.5f);
+        public FloatSettingDescriptor zoomChangingSpeed = new ("Zoom Changing Speed", 1f, 0.5f, 2f, 0.1f);
+        public FloatSettingDescriptor smoothTime = new ("Smooth Time", 0.2f, 0.1f, 0.4f, 0.05f);
+
+        public IEnumerable<ISettingsDescriptor> GetDescriptors()
+        {
+            yield return zoomMultiplier;
+            yield return zoomChangingSpeed;
+            yield return smoothTime;
+        }
     }
 }

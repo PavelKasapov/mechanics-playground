@@ -21,24 +21,24 @@ namespace MechanicsPlayground.FreeCamera3D
         {
             Vector3 totalMove = CalcDirectionalMovement(targetDirectionalDelta);
             totalMove.y += CalcVerticalMovement(targetVerticalDelta);
-            totalMove *= (isSprinting ? _movementSettings.sprintMultiplier : 1);
+            totalMove *= (isSprinting ? _movementSettings.sprintMultiplier.Value : 1);
             _cameraTransform.position += totalMove;
         }
 
         private Vector3 CalcDirectionalMovement(Vector2 targetDirectionalDelta)
         {
-            _directionalMovementDelta = Vector2.Lerp(_directionalMovementDelta, targetDirectionalDelta, _movementSettings.smoothTime * Time.deltaTime);
+            _directionalMovementDelta = Vector2.Lerp(_directionalMovementDelta, targetDirectionalDelta, _movementSettings.smoothTime.Value * Time.deltaTime);
 
             Vector3 forwardMove = _cameraTransform.forward * _directionalMovementDelta.y;
             Vector3 rightMove = _cameraTransform.right * _directionalMovementDelta.x;
-            return _movementSettings.moveSpeed * Time.deltaTime * (forwardMove + rightMove);
+            return _movementSettings.moveSpeed.Value * Time.deltaTime * (forwardMove + rightMove);
         }
 
         private float CalcVerticalMovement(float targetVerticalDelta)
         {
-            _verticalMovementDelta = Mathf.Lerp(_verticalMovementDelta, targetVerticalDelta, _movementSettings.smoothTime * Time.deltaTime);
+            _verticalMovementDelta = Mathf.Lerp(_verticalMovementDelta, targetVerticalDelta, _movementSettings.smoothTime.Value * Time.deltaTime);
 
-            return  _movementSettings.moveSpeed * Time.deltaTime * _verticalMovementDelta;
+            return  _movementSettings.moveSpeed.Value * Time.deltaTime * _verticalMovementDelta;
         }
     }
 }

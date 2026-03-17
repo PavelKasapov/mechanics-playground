@@ -1,12 +1,19 @@
-using System;
+using MechanicsPlayground.Core;
+using System.Collections.Generic;
 
 namespace MechanicsPlayground.FreeCamera3D
 {
-    [Serializable]
-    public class MovementSettings
+    public class MovementSettings : ISettings
     {
-        public float moveSpeed = 20f;
-        public float smoothTime = 10f;
-        public float sprintMultiplier = 3f;
+        public FloatSettingDescriptor moveSpeed = new("Movement Speed", 20f, 10f, 30f, 1f);
+        public FloatSettingDescriptor smoothTime = new ("Asseleration/Deseleration Rate", 10f, 5f, 20f, 1f);
+        public FloatSettingDescriptor sprintMultiplier = new("Sprint Multiplier", 3f, 1f, 5f, 1f);
+
+        public IEnumerable<ISettingsDescriptor> GetDescriptors()
+        {
+            yield return moveSpeed;
+            yield return smoothTime;
+            yield return sprintMultiplier;
+        }
     }
 }

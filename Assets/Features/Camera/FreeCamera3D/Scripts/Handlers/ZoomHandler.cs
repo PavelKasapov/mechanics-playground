@@ -20,7 +20,7 @@ namespace MechanicsPlayground.FreeCamera3D
 
         public void Tick(bool isZooming)
         {
-            float targetFOV = isZooming ? _baseFOV / _zoomSettings.zoomMultiplier : _baseFOV;
+            float targetFOV = isZooming ? _baseFOV / _zoomSettings.zoomMultiplier.Value : _baseFOV;
             float currentFOV = _camera.fieldOfView;
 
             if (Mathf.Approximately(currentFOV, targetFOV))
@@ -28,7 +28,7 @@ namespace MechanicsPlayground.FreeCamera3D
                 return;
             }
 
-            _camera.fieldOfView = Mathf.SmoothDamp(_camera.fieldOfView, targetFOV, ref _zoomVelocity, _zoomSettings.smoothTime);
+            _camera.fieldOfView = Mathf.SmoothDamp(_camera.fieldOfView, targetFOV, ref _zoomVelocity, _zoomSettings.smoothTime.Value);
         }
     }
 }

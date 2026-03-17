@@ -16,6 +16,7 @@ namespace MechanicsPlayground.Core
                 .As<IFeatureRegistryWritter>();
 
             builder.RegisterEntryPoint<FeatureManager>();
+            builder.Register<SettingsRegistry>(Lifetime.Singleton);
         }
     }
 }

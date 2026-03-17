@@ -18,7 +18,7 @@ namespace MechanicsPlayground.FreeCamera3D
                 .Merge(_inputActions.Camera.Zoom.CanceledAsObservable().Select(_ => false));
         public Observable<bool> Sprint => _inputActions.Camera.Sprint.PerformedAsObservable().Select(_ => true)
                 .Merge(_inputActions.Camera.Sprint.CanceledAsObservable().Select(_ => false));
-        public Observable<float> VerticalMomement => _inputActions.Camera.VerticalMovement.PerformedAsObservable()
+        public Observable<float> VerticalMovement => _inputActions.Camera.VerticalMovement.PerformedAsObservable()
                 .Merge(_inputActions.Camera.VerticalMovement.CanceledAsObservable())
                 .Select(ctx => ctx.ReadValue<float>());
 
