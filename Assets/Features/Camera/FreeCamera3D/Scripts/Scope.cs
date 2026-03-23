@@ -1,3 +1,4 @@
+using MechanicsPlayground.Core;
 using VContainer;
 using VContainer.Unity;
 
@@ -7,9 +8,9 @@ namespace MechanicsPlayground.FreeCamera3D
     {
         protected override void Configure(IContainerBuilder builder)
         {
-            builder.RegisterInstance(new RotationSettings());
-            builder.RegisterInstance(new MovementSettings());
-            builder.RegisterInstance(new ZoomSettings());
+            builder.RegisterInstance(new RotationSettings()).As<ISettings>().AsSelf();
+            builder.RegisterInstance(new MovementSettings()).As<ISettings>().AsSelf();
+            builder.RegisterInstance(new ZoomSettings()).As<ISettings>().AsSelf();
             builder.RegisterEntryPoint<Controller>(Lifetime.Singleton);
             builder.Register<InputAdapter>(Lifetime.Singleton);
             builder.Register<MovementHandler>(Lifetime.Singleton);

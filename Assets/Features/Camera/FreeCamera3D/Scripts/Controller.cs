@@ -18,9 +18,9 @@ namespace MechanicsPlayground.FreeCamera3D
         private readonly IEnumerable<ISettings> _settings;
         private readonly CompositeDisposable _disposables = new();
 
+        private Vector2 _inputLookDelta;
         private Vector2 _inputMoveDelta;
         private float _inputVerticalDelta;
-        private Vector2 _inputLookDelta;
         private bool _isSprinting;
         private bool _isZooming;
 

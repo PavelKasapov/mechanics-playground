@@ -1,3 +1,5 @@
+using UnityEngine;
+using VContainer;
 using VContainer.Unity;
 
 namespace MechanicsPlayground.Core
@@ -7,9 +9,11 @@ namespace MechanicsPlayground.Core
         private readonly LifetimeScope _gameScope;
         private LifetimeScope _cameraScope;
 
-        public FeatureManager(LifetimeScope gameScope)
+        public FeatureManager(LifetimeScope gameScope/*, IObjectResolver resolver*/)
         {
+            Debug.Log("FeatureManager");
             _gameScope = gameScope;
+            /*var presenter = resolver.Resolve<UISettingsPanelPresenter>();*/
         }
 
         public void Initialize()

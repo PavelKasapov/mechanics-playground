@@ -9,33 +9,34 @@ namespace MechanicsPlayground.Core
 {
     public class SettingsRegistry : IDisposable
     {
-        private readonly ObservableDictionary<string, ModuleSettingsGroup> _modulesByName = new();
+        public ObservableDictionary<string, ModuleSettingsGroup> ModulesByName { get; } = new();
         
         public IDisposable RegisterModule(string moduleName, IEnumerable<ISettingsDescriptor> settings)
         {
-            if (_modulesByName.ContainsKey(moduleName))
+            if (ModulesByName.ContainsKey(moduleName))
                 throw new InvalidOperationException($"Module {moduleName} already registered");
 
             var newGroup = new ModuleSettingsGroup(moduleName, settings);
 
-            _modulesByName.Add(moduleName, newGroup);
+            ModulesByName.Add(moduleName, newGroup);
 
-            Debug.Log($"Registered settings of {_modulesByName.First().Key} module");
+            Debug.Log($"Registered settings of {ModulesByName.First().Key} module");
+            Debug.Log($"settings.Count() {settings.Count()}");
 
             return Disposable.Create(() => UnregisterModule(moduleName));
         }
 
         public void UnregisterModule(string moduleName)
         {
-            if (_modulesByName.TryGetValue(moduleName, out var group))
+            if (ModulesByName.TryGetValue(moduleName, out var group))
             {
-                _modulesByName.Remove(moduleName);
+                ModulesByName.Remove(moduleName);
             }
         }
 
         public void Dispose()
         {
-            _modulesByName.Clear();
+            ModulesByName.Clear();
         }
     }
 }
