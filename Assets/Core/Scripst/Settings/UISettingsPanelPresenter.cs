@@ -22,7 +22,6 @@ namespace MechanicsPlayground.Core
 
         public UISettingsPanelPresenter(SettingsRegistry settingsRegistry, SettingControlProvider settingControlProvider, SettingsControlModule modulePrefab, [Key("UISettingsPanel")]Transform panelView)
         {
-            Debug.Log(settingsRegistry);
             _settingsRegistry = settingsRegistry;
             _settingControlProvider = settingControlProvider;
             _modulePrefab = modulePrefab;

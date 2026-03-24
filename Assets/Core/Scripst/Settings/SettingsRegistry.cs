@@ -21,7 +21,6 @@ namespace MechanicsPlayground.Core
             ModulesByName.Add(moduleName, newGroup);
 
             Debug.Log($"Registered settings of {ModulesByName.First().Key} module");
-            Debug.Log($"settings.Count() {settings.Count()}");
 
             return Disposable.Create(() => UnregisterModule(moduleName));
         }

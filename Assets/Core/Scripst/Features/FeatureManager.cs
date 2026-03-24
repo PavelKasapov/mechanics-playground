@@ -1,5 +1,3 @@
-using UnityEngine;
-using VContainer;
 using VContainer.Unity;
 
 namespace MechanicsPlayground.Core
@@ -9,11 +7,9 @@ namespace MechanicsPlayground.Core
         private readonly LifetimeScope _gameScope;
         private LifetimeScope _cameraScope;
 
-        public FeatureManager(LifetimeScope gameScope/*, IObjectResolver resolver*/)
+        public FeatureManager(LifetimeScope gameScope)
         {
-            Debug.Log("FeatureManager");
             _gameScope = gameScope;
-            /*var presenter = resolver.Resolve<UISettingsPanelPresenter>();*/
         }
 
         public void Initialize()
@@ -27,9 +23,15 @@ namespace MechanicsPlayground.Core
             _cameraScope = _gameScope.CreateChild<FreeCamera3D.Scope>();
         }
 
+        private void ActivateOrthographic2DCamera()
+        {
+            _cameraScope?.Dispose();
+            _cameraScope = _gameScope.CreateChild<Orthographic2DCamera.Scope>();
+        }
+
         private void TestRun()
         {
-            Activate3DCamera();
+            ActivateOrthographic2DCamera();
         }
     }
 }
