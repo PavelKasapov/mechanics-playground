@@ -21,6 +21,8 @@ namespace MechanicsPlayground.FreeCamera3D
         public Observable<float> VerticalMovement => _inputActions.Camera.VerticalMovement.PerformedAsObservable()
                 .Merge(_inputActions.Camera.VerticalMovement.CanceledAsObservable())
                 .Select(ctx => ctx.ReadValue<float>());
+        public Observable<bool> CursorVisiblility => _inputActions.Camera.CursorVisiblility.PerformedAsObservable().Select(_ => true)
+               .Merge(_inputActions.Camera.CursorVisiblility.CanceledAsObservable().Select(_ => false));
 
         public InputAdapter()
         {

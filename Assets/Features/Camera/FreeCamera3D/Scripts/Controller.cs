@@ -23,6 +23,7 @@ namespace MechanicsPlayground.FreeCamera3D
         private float _inputVerticalDelta;
         private bool _isSprinting;
         private bool _isZooming;
+        private bool _isCursorVisiblile;
 
         public Controller (InputAdapter inputAdapter, MovementHandler movementHandler, RotationHandler rotationHandler, ZoomHandler zoomHandler, SettingsRegistry settingsRegistry ,IEnumerable<ISettings> settings)
         {
@@ -43,13 +44,14 @@ namespace MechanicsPlayground.FreeCamera3D
             _inputAdapter.VerticalMovement.Subscribe(vervicalDelta => { _inputVerticalDelta = vervicalDelta; }).AddTo(_disposables);
             _inputAdapter.Sprint.Subscribe(isSprinting => { _isSprinting = isSprinting; }).AddTo(_disposables);
             _inputAdapter.Zoom.Subscribe(isZooming => { _isZooming = isZooming; }).AddTo(_disposables);
+            _inputAdapter.CursorVisiblility.Subscribe(isCursorVisiblile => { _isCursorVisiblile = isCursorVisiblile; }).AddTo(_disposables);
 
             _settingsRegistry.RegisterModule("FreeCamera3D", _settings.SelectMany(s => s.GetDescriptors()).ToList()).AddTo(_disposables);
         }
 
         public void Tick()
         {
-            _rotationHandler.Tick(_inputLookDelta);
+            _rotationHandler.Tick(_inputLookDelta, _isCursorVisiblile);
             _movementHandler.Tick(_inputMoveDelta, _inputVerticalDelta, _isSprinting);
             _zoomHandler.Tick(_isZooming);
         }

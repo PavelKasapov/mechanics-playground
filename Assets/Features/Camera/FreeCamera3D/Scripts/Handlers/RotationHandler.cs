@@ -9,16 +9,25 @@ namespace MechanicsPlayground.FreeCamera3D
         private readonly RotationSettings _rotationSettings;
 
         private Vector2 _currentLookDelta;
+        private bool _lastCursorVisibility;
         public RotationHandler([Key("CameraTransform")] Transform cameraTransform, RotationSettings rotationSettings)
         {
             _cameraTransform = cameraTransform;
             _rotationSettings = rotationSettings;
+            Cursor.visible = false;
         }
 
-        public void Tick(Vector2 targetLookDelta)
+        public void Tick(Vector2 targetLookDelta, bool cursorVisibility)
         {
-            _currentLookDelta.x = Mathf.Lerp(_currentLookDelta.x, targetLookDelta.x, _rotationSettings.lookSmoothTime.Value * Time.deltaTime);
-            _currentLookDelta.y = Mathf.Lerp(_currentLookDelta.y, targetLookDelta.y, _rotationSettings.lookSmoothTime.Value * Time.deltaTime);
+            if (_lastCursorVisibility != cursorVisibility)
+            {
+                Cursor.visible = cursorVisibility;
+                Cursor.lockState = cursorVisibility ? CursorLockMode.None : CursorLockMode.Locked;
+                _lastCursorVisibility = cursorVisibility;
+            }
+
+            _currentLookDelta.x = Mathf.Lerp(_currentLookDelta.x, cursorVisibility ? 0 : targetLookDelta.x, _rotationSettings.lookSmoothTime.Value * Time.deltaTime);
+            _currentLookDelta.y = Mathf.Lerp(_currentLookDelta.y, cursorVisibility ? 0 : targetLookDelta.y, _rotationSettings.lookSmoothTime.Value * Time.deltaTime);
 
             Vector3 currentEuler = _cameraTransform.eulerAngles;
 

@@ -135,6 +135,15 @@ public partial class @FreeCamera3DInputActions: IInputActionCollection2, IDispos
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CursorVisiblility"",
+                    ""type"": ""Button"",
+                    ""id"": ""36de493f-256a-46c4-842c-b47febbc1b0e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -258,6 +267,17 @@ public partial class @FreeCamera3DInputActions: IInputActionCollection2, IDispos
                     ""action"": ""Sprint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bd16d166-f6d6-4e54-a589-9dbec7a7fe48"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CursorVisiblility"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -271,6 +291,7 @@ public partial class @FreeCamera3DInputActions: IInputActionCollection2, IDispos
         m_Camera_Zoom = m_Camera.FindAction("Zoom", throwIfNotFound: true);
         m_Camera_VerticalMovement = m_Camera.FindAction("VerticalMovement", throwIfNotFound: true);
         m_Camera_Sprint = m_Camera.FindAction("Sprint", throwIfNotFound: true);
+        m_Camera_CursorVisiblility = m_Camera.FindAction("CursorVisiblility", throwIfNotFound: true);
     }
 
     ~@FreeCamera3DInputActions()
@@ -356,6 +377,7 @@ public partial class @FreeCamera3DInputActions: IInputActionCollection2, IDispos
     private readonly InputAction m_Camera_Zoom;
     private readonly InputAction m_Camera_VerticalMovement;
     private readonly InputAction m_Camera_Sprint;
+    private readonly InputAction m_Camera_CursorVisiblility;
     /// <summary>
     /// Provides access to input actions defined in input action map "Camera".
     /// </summary>
@@ -387,6 +409,10 @@ public partial class @FreeCamera3DInputActions: IInputActionCollection2, IDispos
         /// Provides access to the underlying input action "Camera/Sprint".
         /// </summary>
         public InputAction @Sprint => m_Wrapper.m_Camera_Sprint;
+        /// <summary>
+        /// Provides access to the underlying input action "Camera/CursorVisiblility".
+        /// </summary>
+        public InputAction @CursorVisiblility => m_Wrapper.m_Camera_CursorVisiblility;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -428,6 +454,9 @@ public partial class @FreeCamera3DInputActions: IInputActionCollection2, IDispos
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
+            @CursorVisiblility.started += instance.OnCursorVisiblility;
+            @CursorVisiblility.performed += instance.OnCursorVisiblility;
+            @CursorVisiblility.canceled += instance.OnCursorVisiblility;
         }
 
         /// <summary>
@@ -454,6 +483,9 @@ public partial class @FreeCamera3DInputActions: IInputActionCollection2, IDispos
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
+            @CursorVisiblility.started -= instance.OnCursorVisiblility;
+            @CursorVisiblility.performed -= instance.OnCursorVisiblility;
+            @CursorVisiblility.canceled -= instance.OnCursorVisiblility;
         }
 
         /// <summary>
@@ -529,5 +561,12 @@ public partial class @FreeCamera3DInputActions: IInputActionCollection2, IDispos
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSprint(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "CursorVisiblility" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCursorVisiblility(InputAction.CallbackContext context);
     }
 }
