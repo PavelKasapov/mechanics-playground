@@ -16,11 +16,19 @@ namespace MechanicsPlayground.Orthographic2DCamera
             _cameraTransform = cameraTransform;
             _camera = camera;
             _movementSettings = movementSettings;
+
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
         }
 
-        public void Tick(Vector2 targetDirectionalDelta, float targetVerticalDelta, bool isSprinting = false)
+        public void Tick(Vector2 targetDirectionalDelta, Vector2 cursorPosition, bool isSprinting = false)
         {
-            Vector3 totalMove = CalcDirectionalMovement(targetDirectionalDelta);
+            Vector2 moveDelta = targetDirectionalDelta;
+            if (moveDelta == Vector2.zero)
+            {
+                moveDelta = CursorPositionToScreenCorner(cursorPosition);
+            }
+            Vector3 totalMove = CalcDirectionalMovement(moveDelta);
             totalMove *= (isSprinting ? _movementSettings.sprintMultiplier.Value : 1);
             _cameraTransform.position += totalMove;
         }
@@ -32,6 +40,21 @@ namespace MechanicsPlayground.Orthographic2DCamera
             Vector3 forwardMove = Vector3.forward * _directionalMovementDelta.y;
             Vector3 rightMove = Vector3.right * _directionalMovementDelta.x;
             return _movementSettings.moveSpeed.Value * _camera.orthographicSize * Time.deltaTime * (forwardMove + rightMove);
+        }
+
+        private Vector2 CursorPositionToScreenCorner(Vector2 cursorPosition)
+        {
+            return new Vector2(
+                cursorPosition.x / Screen.width is var x 
+                && x <= _movementSettings.cornerThreshold.Value ? -1 
+                : x >= 1 - _movementSettings.cornerThreshold.Value ? 1 
+                : 0,
+
+                cursorPosition.y / Screen.height is var y 
+                && y <= _movementSettings.cornerThreshold.Value ? -1 
+                : y >= 1 - _movementSettings.cornerThreshold.Value ? 1 
+                : 0
+            );
         }
     }
 }

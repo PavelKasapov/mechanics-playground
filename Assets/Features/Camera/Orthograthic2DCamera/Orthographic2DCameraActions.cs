@@ -92,15 +92,6 @@ public partial class @Orthographic2DCameraInputActions: IInputActionCollection2,
             ""id"": ""f1b0e791-7309-4aaf-8b54-7f9f4077fae3"",
             ""actions"": [
                 {
-                    ""name"": ""Look"",
-                    ""type"": ""Value"",
-                    ""id"": ""d641ec0c-fcaf-464f-9217-44bd5cea8eff"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""Move"",
                     ""type"": ""Value"",
                     ""id"": ""420337f8-8c49-4b36-9aa5-6a392f3c6e36"",
@@ -126,20 +117,18 @@ public partial class @Orthographic2DCameraInputActions: IInputActionCollection2,
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MousePosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""6dce0361-134f-4e46-bcd8-e51dab75d752"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""24267b29-4b65-409e-9f96-5452d78bddd5"",
-                    ""path"": ""<Mouse>/delta"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": ""2D Vector"",
                     ""id"": ""94f1d28c-0d21-4db0-afcc-6dae2d698e24"",
@@ -216,6 +205,17 @@ public partial class @Orthographic2DCameraInputActions: IInputActionCollection2,
                     ""action"": ""Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""67cbadd2-64c6-44ff-8a9b-bd38ec003f7e"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -224,10 +224,10 @@ public partial class @Orthographic2DCameraInputActions: IInputActionCollection2,
 }");
         // Camera
         m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
-        m_Camera_Look = m_Camera.FindAction("Look", throwIfNotFound: true);
         m_Camera_Move = m_Camera.FindAction("Move", throwIfNotFound: true);
         m_Camera_Zoom = m_Camera.FindAction("Zoom", throwIfNotFound: true);
         m_Camera_Sprint = m_Camera.FindAction("Sprint", throwIfNotFound: true);
+        m_Camera_MousePosition = m_Camera.FindAction("MousePosition", throwIfNotFound: true);
     }
 
     ~@Orthographic2DCameraInputActions()
@@ -308,10 +308,10 @@ public partial class @Orthographic2DCameraInputActions: IInputActionCollection2,
     // Camera
     private readonly InputActionMap m_Camera;
     private List<ICameraActions> m_CameraActionsCallbackInterfaces = new List<ICameraActions>();
-    private readonly InputAction m_Camera_Look;
     private readonly InputAction m_Camera_Move;
     private readonly InputAction m_Camera_Zoom;
     private readonly InputAction m_Camera_Sprint;
+    private readonly InputAction m_Camera_MousePosition;
     /// <summary>
     /// Provides access to input actions defined in input action map "Camera".
     /// </summary>
@@ -324,10 +324,6 @@ public partial class @Orthographic2DCameraInputActions: IInputActionCollection2,
         /// </summary>
         public CameraActions(@Orthographic2DCameraInputActions wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "Camera/Look".
-        /// </summary>
-        public InputAction @Look => m_Wrapper.m_Camera_Look;
-        /// <summary>
         /// Provides access to the underlying input action "Camera/Move".
         /// </summary>
         public InputAction @Move => m_Wrapper.m_Camera_Move;
@@ -339,6 +335,10 @@ public partial class @Orthographic2DCameraInputActions: IInputActionCollection2,
         /// Provides access to the underlying input action "Camera/Sprint".
         /// </summary>
         public InputAction @Sprint => m_Wrapper.m_Camera_Sprint;
+        /// <summary>
+        /// Provides access to the underlying input action "Camera/MousePosition".
+        /// </summary>
+        public InputAction @MousePosition => m_Wrapper.m_Camera_MousePosition;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -365,9 +365,6 @@ public partial class @Orthographic2DCameraInputActions: IInputActionCollection2,
         {
             if (instance == null || m_Wrapper.m_CameraActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_CameraActionsCallbackInterfaces.Add(instance);
-            @Look.started += instance.OnLook;
-            @Look.performed += instance.OnLook;
-            @Look.canceled += instance.OnLook;
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
@@ -377,6 +374,9 @@ public partial class @Orthographic2DCameraInputActions: IInputActionCollection2,
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
+            @MousePosition.started += instance.OnMousePosition;
+            @MousePosition.performed += instance.OnMousePosition;
+            @MousePosition.canceled += instance.OnMousePosition;
         }
 
         /// <summary>
@@ -388,9 +388,6 @@ public partial class @Orthographic2DCameraInputActions: IInputActionCollection2,
         /// <seealso cref="CameraActions" />
         private void UnregisterCallbacks(ICameraActions instance)
         {
-            @Look.started -= instance.OnLook;
-            @Look.performed -= instance.OnLook;
-            @Look.canceled -= instance.OnLook;
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
@@ -400,6 +397,9 @@ public partial class @Orthographic2DCameraInputActions: IInputActionCollection2,
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
+            @MousePosition.started -= instance.OnMousePosition;
+            @MousePosition.performed -= instance.OnMousePosition;
+            @MousePosition.canceled -= instance.OnMousePosition;
         }
 
         /// <summary>
@@ -441,13 +441,6 @@ public partial class @Orthographic2DCameraInputActions: IInputActionCollection2,
     public interface ICameraActions
     {
         /// <summary>
-        /// Method invoked when associated input action "Look" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnLook(InputAction.CallbackContext context);
-        /// <summary>
         /// Method invoked when associated input action "Move" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -468,5 +461,12 @@ public partial class @Orthographic2DCameraInputActions: IInputActionCollection2,
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSprint(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "MousePosition" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMousePosition(InputAction.CallbackContext context);
     }
 }

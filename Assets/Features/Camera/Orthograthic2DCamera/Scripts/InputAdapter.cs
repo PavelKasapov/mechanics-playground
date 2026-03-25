@@ -11,18 +11,13 @@ namespace MechanicsPlayground.Orthographic2DCamera
         public Observable<Vector2> Move => _inputActions.Camera.Move.PerformedAsObservable()
                 .Merge(_inputActions.Camera.Move.CanceledAsObservable())
                 .Select(ctx => ctx.ReadValue<Vector2>());
-        /*public Observable<Vector2> Look => _inputActions.Camera.Look.PerformedAsObservable()
-                .Merge(_inputActions.Camera.Look.CanceledAsObservable())
-                .Select(ctx => ctx.ReadValue<Vector2>());*/
+        public Observable<Vector2> MousePosition => _inputActions.Camera.MousePosition.PerformedAsObservable()
+                .Merge(_inputActions.Camera.MousePosition.CanceledAsObservable())
+                .Select(ctx => ctx.ReadValue<Vector2>());
         public Observable<float> Zoom => _inputActions.Camera.Zoom.PerformedAsObservable()
                 .Merge(_inputActions.Camera.Zoom.CanceledAsObservable()).Select(ctx => ctx.ReadValue<float>());
         public Observable<bool> Sprint => _inputActions.Camera.Sprint.PerformedAsObservable().Select(_ => true)
                 .Merge(_inputActions.Camera.Sprint.CanceledAsObservable().Select(_ => false));
-        /*public Observable<float> VerticalMovement => _inputActions.Camera.VerticalMovement.PerformedAsObservable()
-                .Merge(_inputActions.Camera.VerticalMovement.CanceledAsObservable())
-                .Select(ctx => ctx.ReadValue<float>());*/
-        /*public Observable<bool> CursorVisiblility => _inputActions.Camera.CursorVisiblility.PerformedAsObservable().Select(_ => true)
-               .Merge(_inputActions.Camera.CursorVisiblility.CanceledAsObservable().Select(_ => false));*/
 
         public InputAdapter()
         {

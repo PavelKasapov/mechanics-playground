@@ -18,7 +18,7 @@ namespace MechanicsPlayground.Orthographic2DCamera
         private readonly CompositeDisposable _disposables = new();
 
         private Vector2 _inputMoveDelta;
-        private float _inputVerticalDelta;
+        private Vector2 _mousePosition;
         private bool _isSprinting;
         private float _inputZoomingDelta;
 
@@ -38,13 +38,14 @@ namespace MechanicsPlayground.Orthographic2DCamera
             _inputAdapter.Move.Subscribe(moveDelta => { _inputMoveDelta = moveDelta; }).AddTo(_disposables);
             _inputAdapter.Sprint.Subscribe(isSprinting => { _isSprinting = isSprinting; }).AddTo(_disposables);
             _inputAdapter.Zoom.Subscribe(zoomingDelta => { _inputZoomingDelta = zoomingDelta; }).AddTo(_disposables);
+            _inputAdapter.MousePosition.Subscribe(mousePosition => { _mousePosition = mousePosition; }).AddTo(_disposables);
 
             _settingsRegistry.RegisterModule("Orthographic2DCamera", _settings.SelectMany(s => s.GetDescriptors()).ToList()).AddTo(_disposables);
         }
 
         public void Tick()
         {
-            _movementHandler.Tick(_inputMoveDelta, _inputVerticalDelta, _isSprinting);
+            _movementHandler.Tick(_inputMoveDelta, _mousePosition, _isSprinting);
             _zoomHandler.Tick(_inputZoomingDelta);
         }
     }
