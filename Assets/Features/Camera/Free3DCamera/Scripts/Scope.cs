@@ -2,7 +2,7 @@ using MechanicsPlayground.Core;
 using VContainer;
 using VContainer.Unity;
 
-namespace MechanicsPlayground.FreeCamera3D
+namespace MechanicsPlayground.Free3DCamera
 {
     public class Scope : LifetimeScope
     {

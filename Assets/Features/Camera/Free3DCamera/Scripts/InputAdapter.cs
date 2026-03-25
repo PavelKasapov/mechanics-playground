@@ -3,7 +3,7 @@ using ReactiveInputSystem;
 using System;
 using UnityEngine;
 
-namespace MechanicsPlayground.FreeCamera3D
+namespace MechanicsPlayground.Free3DCamera
 {
     public class InputAdapter : IDisposable
     {

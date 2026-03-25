@@ -1,7 +1,7 @@
 using MechanicsPlayground.Core;
 using System.Collections.Generic;
 
-namespace MechanicsPlayground.FreeCamera3D
+namespace MechanicsPlayground.Free3DCamera
 {
     public class MovementSettings : ISettings
     {

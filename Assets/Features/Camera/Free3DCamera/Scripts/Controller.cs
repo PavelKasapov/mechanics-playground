@@ -6,7 +6,7 @@ using UnityEngine;
 using VContainer.Unity;
 using System.Linq;
 
-namespace MechanicsPlayground.FreeCamera3D
+namespace MechanicsPlayground.Free3DCamera
 {
     public class Controller : IInitializable, ITickable, IDisposable
     {
@@ -46,7 +46,7 @@ namespace MechanicsPlayground.FreeCamera3D
             _inputAdapter.Zoom.Subscribe(isZooming => { _isZooming = isZooming; }).AddTo(_disposables);
             _inputAdapter.CursorVisiblility.Subscribe(isCursorVisiblile => { _isCursorVisiblile = isCursorVisiblile; }).AddTo(_disposables);
 
-            _settingsRegistry.RegisterModule("FreeCamera3D", _settings.SelectMany(s => s.GetDescriptors()).ToList()).AddTo(_disposables);
+            _settingsRegistry.RegisterModule("Free3DCamera", _settings.SelectMany(s => s.GetDescriptors()).ToList()).AddTo(_disposables);
         }
 
         public void Tick()

@@ -1,7 +1,7 @@
 using UnityEngine;
 using VContainer;
 
-namespace MechanicsPlayground.FreeCamera3D
+namespace MechanicsPlayground.Free3DCamera
 {
     public class MovementHandler
     {

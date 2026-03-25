@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MechanicsPlayground.FreeCamera3D
+namespace MechanicsPlayground.Free3DCamera
 {
     public class ZoomHandler
     {

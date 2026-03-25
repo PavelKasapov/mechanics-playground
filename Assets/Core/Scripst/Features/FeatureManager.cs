@@ -20,7 +20,7 @@ namespace MechanicsPlayground.Core
         private void Activate3DCamera()
         {
             _cameraScope?.Dispose();
-            _cameraScope = _gameScope.CreateChild<FreeCamera3D.Scope>();
+            _cameraScope = _gameScope.CreateChild<Free3DCamera.Scope>();
         }
 
         private void ActivateOrthographic2DCamera()

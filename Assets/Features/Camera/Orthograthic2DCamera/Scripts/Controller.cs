@@ -17,12 +17,10 @@ namespace MechanicsPlayground.Orthographic2DCamera
         private readonly IEnumerable<ISettings> _settings;
         private readonly CompositeDisposable _disposables = new();
 
-        private Vector2 _inputLookDelta;
         private Vector2 _inputMoveDelta;
         private float _inputVerticalDelta;
         private bool _isSprinting;
         private float _inputZoomingDelta;
-        private bool _isCursorVisiblile;
 
         public Controller (InputAdapter inputAdapter, MovementHandler movementHandler, ZoomHandler zoomHandler, SettingsRegistry settingsRegistry ,IEnumerable<ISettings> settings)
         {
