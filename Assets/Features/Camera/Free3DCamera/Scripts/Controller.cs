@@ -11,6 +11,7 @@ namespace MechanicsPlayground.Free3DCamera
     public class Controller : IInitializable, ITickable, IDisposable
     {
         private readonly InputAdapter _inputAdapter;
+        private readonly Camera _camera;
         private readonly MovementHandler _movementHandler;
         private readonly RotationHandler _rotationHandler;
         private readonly ZoomHandler _zoomHandler;
@@ -25,9 +26,10 @@ namespace MechanicsPlayground.Free3DCamera
         private bool _isZooming;
         private bool _isCursorVisiblile;
 
-        public Controller (InputAdapter inputAdapter, MovementHandler movementHandler, RotationHandler rotationHandler, ZoomHandler zoomHandler, SettingsRegistry settingsRegistry ,IEnumerable<ISettings> settings)
+        public Controller (InputAdapter inputAdapter, Camera camera, MovementHandler movementHandler, RotationHandler rotationHandler, ZoomHandler zoomHandler, SettingsRegistry settingsRegistry ,IEnumerable<ISettings> settings)
         {
             _inputAdapter = inputAdapter;
+            _camera = camera;
             _movementHandler = movementHandler;
             _rotationHandler = rotationHandler;
             _zoomHandler = zoomHandler;
@@ -46,6 +48,8 @@ namespace MechanicsPlayground.Free3DCamera
             _inputAdapter.Zoom.Subscribe(isZooming => { _isZooming = isZooming; }).AddTo(_disposables);
             _inputAdapter.CursorVisiblility.Subscribe(isCursorVisiblile => { _isCursorVisiblile = isCursorVisiblile; }).AddTo(_disposables);
 
+            SetupStartCameraValues();
+
             _settingsRegistry.RegisterModule("Free3DCamera", _settings.SelectMany(s => s.GetDescriptors()).ToList()).AddTo(_disposables);
         }
 
@@ -54,6 +58,14 @@ namespace MechanicsPlayground.Free3DCamera
             _rotationHandler.Tick(_inputLookDelta, _isCursorVisiblile);
             _movementHandler.Tick(_inputMoveDelta, _inputVerticalDelta, _isSprinting);
             _zoomHandler.Tick(_isZooming);
+        }
+
+        private void SetupStartCameraValues()
+        {
+            _camera.transform.position = new(0, 2, -5);
+            _camera.transform.rotation = Quaternion.Euler(new(0, 0, 0));
+            _camera.fieldOfView = 60;
+            _camera.orthographic = false;
         }
     }
 }
