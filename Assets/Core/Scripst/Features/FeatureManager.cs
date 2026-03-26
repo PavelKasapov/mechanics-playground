@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using VContainer.Unity;
 
 namespace MechanicsPlayground.Core
@@ -5,7 +6,7 @@ namespace MechanicsPlayground.Core
     public class FeatureManager : IInitializable
     {
         private readonly LifetimeScope _gameScope;
-        private LifetimeScope _cameraScope;
+        private readonly Dictionary<FeatureCategory, LifetimeScope> _activeModules = new();
 
         public FeatureManager(LifetimeScope gameScope)
         {
@@ -14,24 +15,20 @@ namespace MechanicsPlayground.Core
 
         public void Initialize()
         {
-            TestRun();
+            ActivateModule<Free3DCamera.Scope>(FeatureCategory.Camera);
         }
 
-        private void Activate3DCamera()
+        public void ActivateModule<TScope>(FeatureCategory category) where TScope : LifetimeScope
         {
-            _cameraScope?.Dispose();
-            _cameraScope = _gameScope.CreateChild<Free3DCamera.Scope>();
-        }
+            if (_activeModules.TryGetValue(category, out var module))
+            {
+                if (module is TScope)
+                    return;
 
-        private void ActivateOrthographic2DCamera()
-        {
-            _cameraScope?.Dispose();
-            _cameraScope = _gameScope.CreateChild<Orthographic2DCamera.Scope>();
-        }
-
-        private void TestRun()
-        {
-            ActivateOrthographic2DCamera();
+                _activeModules.Remove(category);
+                module.Dispose();
+            }
+            _activeModules.Add(category, _gameScope.CreateChild<TScope>());
         }
     }
 }

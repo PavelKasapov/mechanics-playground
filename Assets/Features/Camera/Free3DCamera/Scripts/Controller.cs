@@ -26,7 +26,14 @@ namespace MechanicsPlayground.Free3DCamera
         private bool _isZooming;
         private bool _isCursorVisiblile;
 
-        public Controller (InputAdapter inputAdapter, Camera camera, MovementHandler movementHandler, RotationHandler rotationHandler, ZoomHandler zoomHandler, SettingsRegistry settingsRegistry ,IEnumerable<ISettings> settings)
+        public Controller (
+            InputAdapter inputAdapter,
+            Camera camera,
+            MovementHandler movementHandler,
+            RotationHandler rotationHandler,
+            ZoomHandler zoomHandler,
+            SettingsRegistry settingsRegistry,
+            IEnumerable<ISettings> settings)
         {
             _inputAdapter = inputAdapter;
             _camera = camera;

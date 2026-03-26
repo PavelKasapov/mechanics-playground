@@ -20,7 +20,11 @@ namespace MechanicsPlayground.Core
         private readonly Transform _panelView;
         private readonly CompositeDisposable _compositeDisposable = new();
 
-        public UISettingsPanelPresenter(SettingsRegistry settingsRegistry, SettingControlProvider settingControlProvider, SettingsControlModule modulePrefab, [Key("UISettingsPanel")]Transform panelView)
+        public UISettingsPanelPresenter(
+            SettingsRegistry settingsRegistry,
+            SettingControlProvider settingControlProvider,
+            SettingsControlModule modulePrefab,
+            [Key("UISettingsPanel")] Transform panelView)
         {
             _settingsRegistry = settingsRegistry;
             _settingControlProvider = settingControlProvider;
@@ -38,7 +42,7 @@ namespace MechanicsPlayground.Core
             foreach (var item in _settingsRegistry.ModulesByName)
             {
                 OnModuleAdded(item.Key, item.Value);
-            }  
+            }
         }
 
         private void OnModuleAdded(string moduleName, ModuleSettingsGroup moduleSettingsGroup)
@@ -66,6 +70,6 @@ namespace MechanicsPlayground.Core
         }
         public void Dispose() => _compositeDisposable?.Dispose();
 
-        public void Initialize(){}
+        public void Initialize() { }
     }
 }
