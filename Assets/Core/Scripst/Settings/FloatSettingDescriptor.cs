@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace MechanicsPlayground.Core
 {
     public class FloatSettingDescriptor : ISettingsDescriptor
@@ -11,7 +13,7 @@ namespace MechanicsPlayground.Core
         public FloatSettingDescriptor(string displayName, float value, float min, float max, float step)
         {
             DisplayName = displayName;
-            Value = value;
+            Value = Mathf.Clamp(value, min, max);
             Min = min;
             Max = max;
             Step = step;

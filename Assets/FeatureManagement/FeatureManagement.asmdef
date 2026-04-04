@@ -1,0 +1,18 @@
+{
+    "name": "FeatureManagement",
+    "rootNamespace": "",
+    "references": [
+        "GUID:9da8aaea310fde547bda121ae66051da",
+        "GUID:5a618db2abc1a45439843d447405aa25",
+        "GUID:b0214a6008ed146ff8f122a6a9c2f6cc"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

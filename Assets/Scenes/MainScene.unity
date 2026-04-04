@@ -1883,20 +1883,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 1421819923}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38ac35293b0ced242906696a8446a1ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e0b1f136933d7a46b988659ad820e0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   parentReference:
     TypeName: 
   autoRun: 1
   autoInjectGameObjects: []
-  _floatControlPrefab: {fileID: -2478436767894940463, guid: ef3537e89c200254dad9caac0c460802, type: 3}
-  _modulePrefab: {fileID: 4806193481033265725, guid: 693aa253af800d34580ab83c844e5221, type: 3}
   _uISettingsPanel: {fileID: 597530003}
-  _featureGroupPrefab: {fileID: 6601942380699790511, guid: 0c877c10f11eae74e8c663e1d3870ed5, type: 3}
-  _featureButtonPrefab: {fileID: 8370974292781037733, guid: 0821bfbf855bebf43a8acadaee474332, type: 3}
   _featureModulesPanel: {fileID: 839434046}
   _poolTransform: {fileID: 362835597}
+  _modulePrefab: {fileID: 4806193481033265725, guid: 693aa253af800d34580ab83c844e5221, type: 3}
+  _featureGroupPrefab: {fileID: 6601942380699790511, guid: 0c877c10f11eae74e8c663e1d3870ed5, type: 3}
+  _featureButtonPrefab: {fileID: 8370974292781037733, guid: 0821bfbf855bebf43a8acadaee474332, type: 3}
+  _floatControlPrefab: {fileID: -2478436767894940463, guid: ef3537e89c200254dad9caac0c460802, type: 3}
 --- !u!4 &1421819925
 Transform:
   m_ObjectHideFlags: 0

@@ -1,21 +1,23 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Pool;
 using VContainer;
 
 namespace MechanicsPlayground.Core
 {
-    public class SettingControlProvider
+    public class SettingControlProvider 
     {
-        private readonly Dictionary<Type, IObjectPool<BaseSettingControl>> _pools = new();
         private readonly IObjectResolver _resolver;
+        private readonly Dictionary<Type, IObjectPool<BaseSettingControl>> _pools = new();
         private readonly Transform _poolTransform;
 
         public SettingControlProvider(IObjectResolver resolver, IEnumerable<BaseSettingControl> settingPrefabs, [Key("SettingControlPool")]Transform poolTransform)
         {
             _resolver = resolver;
             _poolTransform = poolTransform;
+            Debug.Log(settingPrefabs.Count());
             foreach (var prefab in settingPrefabs) 
             {
                 Register(prefab);

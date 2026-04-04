@@ -1,0 +1,32 @@
+{
+    "name": "Tests",
+    "rootNamespace": "",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "Unity.TextMeshPro",
+        "Core",
+        "Features",
+        "VContainer",
+        "TNRD.NSubstitute",
+        "R3.Unity",
+        "Unity.InputSystem",
+        "ReactiveInputSystem",
+        "ObservableCollections",
+        "R3.Unity.Editor",
+        "FeatureManagement"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

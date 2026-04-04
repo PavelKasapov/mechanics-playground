@@ -1,4 +1,4 @@
-using ObservableCollections;
+using MechanicsPlayground.Core;
 using R3;
 using System;
 using System.Collections.Generic;
@@ -8,32 +8,33 @@ using UnityEngine.Pool;
 using VContainer;
 using VContainer.Unity;
 
-namespace MechanicsPlayground.Core
+namespace MechanicsPlayground.Tests.Core
 {
-    public class UISettingsPanelPresenter : IDisposable, IInitializable
+    /*public class UISettingsPanelPresenter : IDisposable, IInitializable
     {
         private readonly SettingsRegistry _settingsRegistry;
         private readonly SettingControlProvider _settingControlProvider;
         private readonly Dictionary<string, SettingsControlModule> _settingsModule = new();
         private readonly ObjectPool<SettingsControlModule> _settingsModulePool;
+        private readonly SettingsControlModule _modulePrefab;
         private readonly Transform _panelView;
         private readonly CompositeDisposable _compositeDisposable = new();
 
         public UISettingsPanelPresenter(
-            IObjectResolver objectResolver,
             SettingsRegistry settingsRegistry,
             SettingControlProvider settingControlProvider,
-            SimpleMonobehaviourFactory<SettingsControlModule> moduleFactory,
+            SettingsControlModule modulePrefab,
             [Key("UISettingsPanel")] Transform panelView)
         {
             _settingsRegistry = settingsRegistry;
             _settingControlProvider = settingControlProvider;
+            _modulePrefab = modulePrefab;
             _panelView = panelView;
 
             _settingsRegistry.ModulesByName.ObserveAdd().Subscribe(ev => OnModuleAdded(ev.Value.Key, ev.Value.Value)).AddTo(_compositeDisposable);
             _settingsRegistry.ModulesByName.ObserveRemove().Subscribe(ev => OnModuleRemoved(ev.Value.Key, ev.Value.Value)).AddTo(_compositeDisposable);
 
-            _settingsModulePool = new(() => moduleFactory.Create(_panelView),
+            _settingsModulePool = new(() => GameObject.Instantiate(_modulePrefab, _panelView),
                 module => module.gameObject.SetActive(true),
                 module => module.gameObject.SetActive(false),
                 defaultCapacity: 3);
@@ -70,5 +71,5 @@ namespace MechanicsPlayground.Core
         public void Dispose() => _compositeDisposable?.Dispose();
 
         public void Initialize() { }
-    }
+    }*/
 }
