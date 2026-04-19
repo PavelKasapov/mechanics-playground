@@ -1,4 +1,4 @@
-namespace MechanicsPlayground.FeatureManagement
+namespace MechanicsPlayground.Core
 {
     public enum FeatureCategory
     {

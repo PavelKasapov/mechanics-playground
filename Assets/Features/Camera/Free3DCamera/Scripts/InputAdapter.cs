@@ -7,7 +7,7 @@ namespace MechanicsPlayground.Free3DCamera
 {
     public class InputAdapter : IDisposable
     {
-        private readonly FreeCamera3DInputActions _inputActions;
+        private readonly Free3DCameraInputActions _inputActions;
         public Observable<Vector2> Move => _inputActions.Camera.Move.PerformedAsObservable()
                 .Merge(_inputActions.Camera.Move.CanceledAsObservable())
                 .Select(ctx => ctx.ReadValue<Vector2>());

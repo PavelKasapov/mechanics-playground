@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bcff4c143ccc3409a2f96d4338f9dc, type: 3}
+  m_Name: ModuleDefinition
+  m_EditorClassIdentifier: 
+  _scope: {fileID: 2300711126033692056, guid: d97c24471f1fbf141a50c97741d78366, type: 3}
+  _displayName: Orthographic 2D Camera
+  _category: 0
+  _helpPrefab: {fileID: 1240042181828161055, guid: 942d35441bbc2bd4a8b3caa4fd7d6122, type: 3}

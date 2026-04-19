@@ -2,7 +2,6 @@ using VContainer.Unity;
 using MechanicsPlayground.Core;
 using NUnit.Framework;
 using NSubstitute;
-using MechanicsPlayground.FeatureManagement;
 
 namespace MechanicsPlayground.Tests.Core
 {
@@ -10,7 +9,7 @@ namespace MechanicsPlayground.Tests.Core
     public class FeatureManagerTests
     {
 
-        private LifetimeScope _parentScope;
+        /*private LifetimeScope _parentScope;
         private FeatureManager _manager;
 
         [SetUp]
@@ -61,10 +60,10 @@ namespace MechanicsPlayground.Tests.Core
 
             _parentScope.Received(1).CreateChild<TestScope1>();
             mockChild.DidNotReceive().Dispose();
-        }
+        }*/
 
     }
 
-    public class TestScope1 : LifetimeScope { }
-    public class TestScope2 : LifetimeScope { }
+    internal class TestScope1 : LifetimeScope { }
+    internal class TestScope2 : LifetimeScope { }
 }

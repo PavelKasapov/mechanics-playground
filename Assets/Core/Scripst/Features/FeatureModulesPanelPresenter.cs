@@ -6,7 +6,7 @@ using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-namespace MechanicsPlayground.FeatureManagement
+namespace MechanicsPlayground.Core
 {
     public class FeatureModulesPanelPresenter : IInitializable
     {
@@ -14,28 +14,25 @@ namespace MechanicsPlayground.FeatureManagement
         private readonly Transform _panelView;
         private readonly SimpleMonobehaviourFactory<FeatureModuleGroup> _featureGroupFactory;
         private readonly SimpleMonobehaviourFactory<FeatureButton> _featureButtonFactory;
-
-        private readonly (Type type, FeatureCategory category, string name)[] _featureModules = new (Type, FeatureCategory, string)[]
-        {
-            (typeof(Free3DCamera.Scope), FeatureCategory.Camera, "Free 3D Camera"),
-            (typeof(Orthographic2DCamera.Scope), FeatureCategory.Camera, "Orthographic 2D Camera"),
-        };
+        private readonly IFeatureRegistry _featureRegistry;
 
         public FeatureModulesPanelPresenter(
             FeatureManager featureManager,
             [Key("FeatureModulesPanel")] Transform panelView,
             SimpleMonobehaviourFactory<FeatureModuleGroup> featureGroupFactory,
-            SimpleMonobehaviourFactory<FeatureButton> featureButtonFactory)
+            SimpleMonobehaviourFactory<FeatureButton> featureButtonFactory,
+            IFeatureRegistry featureRegistry)
         {
             _featureManager = featureManager;
             _panelView = panelView;
             _featureGroupFactory = featureGroupFactory;
             _featureButtonFactory = featureButtonFactory;
+            _featureRegistry = featureRegistry;
         }
 
         public void Initialize()
         {
-            var groups = _featureModules.GroupBy(m => m.category);
+            var groups = _featureRegistry.AllModules.GroupBy(m => m.FeatureCategory);
 
             foreach (var group in groups)
             {
@@ -45,15 +42,7 @@ namespace MechanicsPlayground.FeatureManagement
                 foreach (var module in group)
                 {
                     var button = _featureButtonFactory.Create(groupView.transform);
-
-                    var method = typeof(FeatureManager).GetMethod(nameof(FeatureManager.ActivateModule));
-                    var genericMethod = method.MakeGenericMethod(module.type);
-                    var action = (Action<FeatureCategory>)Delegate.CreateDelegate(
-                        typeof(Action<FeatureCategory>),
-                        _featureManager,
-                        genericMethod);
-
-                    button.Init(module.name, () => action(module.category));
+                    button.Init(module.DisplayName, () => _featureManager.ActivateModule(module));
                     buttons.Add(button);
                 }
 

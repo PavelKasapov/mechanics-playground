@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Pool;
 using VContainer;
@@ -17,7 +16,6 @@ namespace MechanicsPlayground.Core
         {
             _resolver = resolver;
             _poolTransform = poolTransform;
-            Debug.Log(settingPrefabs.Count());
             foreach (var prefab in settingPrefabs) 
             {
                 Register(prefab);

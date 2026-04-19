@@ -20,7 +20,6 @@ namespace MechanicsPlayground.Core
         private readonly CompositeDisposable _compositeDisposable = new();
 
         public UISettingsPanelPresenter(
-            IObjectResolver objectResolver,
             SettingsRegistry settingsRegistry,
             SettingControlProvider settingControlProvider,
             SimpleMonobehaviourFactory<SettingsControlModule> moduleFactory,
