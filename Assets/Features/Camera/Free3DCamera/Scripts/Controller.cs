@@ -73,6 +73,7 @@ namespace MechanicsPlayground.Free3DCamera
             _camera.transform.rotation = Quaternion.Euler(new(0, 0, 0));
             _camera.fieldOfView = 60;
             _camera.orthographic = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 }
