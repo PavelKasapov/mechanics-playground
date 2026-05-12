@@ -12,11 +12,12 @@ namespace MechanicsPlayground.Core
         {
             _gameScope = gameScope;
             _featureRegistry = featureRegistry;
+            
         }
 
         public void Initialize()
         {
-            ActivateModule(_featureRegistry.AllModules.First(module => module.FeatureCategory == FeatureCategory.Camera));
+            //ActivateModule(_featureRegistry.AllModules.First(module => module.FeatureCategory == FeatureCategory.Camera));
         }
 
         public void ActivateModule(ModuleDefinition module)

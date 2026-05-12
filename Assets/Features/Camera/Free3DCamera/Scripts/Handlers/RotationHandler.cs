@@ -22,7 +22,7 @@ namespace MechanicsPlayground.Free3DCamera
             if (_lastCursorVisibility != cursorVisibility)
             {
                 Cursor.visible = cursorVisibility;
-                Cursor.lockState = cursorVisibility ? CursorLockMode.None : CursorLockMode.Locked;
+                Cursor.lockState = cursorVisibility ? CursorLockMode.Confined : CursorLockMode.Locked;
                 _lastCursorVisibility = cursorVisibility;
             }
 
