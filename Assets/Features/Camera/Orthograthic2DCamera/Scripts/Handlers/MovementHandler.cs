@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 using VContainer;
 
@@ -6,19 +7,19 @@ namespace MechanicsPlayground.Orthographic2DCamera
     public class MovementHandler
     {
         private readonly Transform _cameraTransform;
-        private readonly Camera _camera;
+        private readonly CinemachineCamera _camera;
         private readonly MovementSettings _movementSettings;
 
         private Vector2 _directionalMovementDelta;
 
-        public MovementHandler([Key("CameraTransform")]Transform cameraTransform, Camera camera, MovementSettings movementSettings )
+        public MovementHandler([Key("CameraTransform")]Transform cameraTransform, CinemachineCamera camera, MovementSettings movementSettings )
         {
             _cameraTransform = cameraTransform;
             _camera = camera;
             _movementSettings = movementSettings;
 
-            Cursor.lockState = CursorLockMode.Confined;
-            Cursor.visible = true;
+            /*Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;*/
         }
 
         public void Tick(Vector2 targetDirectionalDelta, Vector2 cursorPosition, bool isSprinting = false)
@@ -39,7 +40,7 @@ namespace MechanicsPlayground.Orthographic2DCamera
 
             Vector3 forwardMove = Vector3.forward * _directionalMovementDelta.y;
             Vector3 rightMove = Vector3.right * _directionalMovementDelta.x;
-            return _movementSettings.moveSpeed.Value * _camera.orthographicSize * Time.deltaTime * (forwardMove + rightMove);
+            return _movementSettings.moveSpeed.Value * _camera.Lens.OrthographicSize * Time.deltaTime * (forwardMove + rightMove);
         }
 
         private Vector2 CursorPositionToScreenCorner(Vector2 cursorPosition)

@@ -14,7 +14,7 @@ namespace MechanicsPlayground.Free3DCamera
         {
             _cameraTransform = cameraTransform;
             _rotationSettings = rotationSettings;
-            Cursor.visible = false;
+            /*Cursor.visible = false;*/
         }
 
         public void Tick(Vector2 targetLookDelta, bool cursorVisibility)

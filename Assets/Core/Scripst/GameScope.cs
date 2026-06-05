@@ -1,4 +1,5 @@
 using System;
+using Unity.Cinemachine;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -7,24 +8,26 @@ namespace MechanicsPlayground.Core
 {
     public class GameScope : LifetimeScope
     {
-        [SerializeField] Transform _uISettingsPanel;
-        [SerializeField] Transform _featureModulesPanel;
-        [SerializeField] Transform _poolTransform;
-        [SerializeField] HelpWindow _helpWindow;
-        [SerializeField] SettingsControlModule _modulePrefab;
-        [SerializeField] FeatureModuleGroup _featureGroupPrefab;
-        [SerializeField] FeatureButton _featureButtonPrefab;
-        [SerializeField] FeatureButton _featureHelpButtonPrefab;
-        [SerializeField] FloatSettingControl _floatControlPrefab;
+        [SerializeField] private Transform _uISettingsPanel;
+        [SerializeField] private Transform _featureModulesPanel;
+        [SerializeField] private Transform _poolTransform;
+        [SerializeField] private HelpWindow _helpWindow;
+        [SerializeField] private SettingsControlModule _modulePrefab;
+        [SerializeField] private FeatureModuleGroup _featureGroupPrefab;
+        [SerializeField] private FeatureButton _featureButtonPrefab;
+        [SerializeField] private FeatureButton _featureHelpButtonPrefab;
+        [SerializeField] private FloatSettingControl _floatControlPrefab;
+        [SerializeField] private CinemachineCamera _cinemachineMockCamera;
         protected override void Configure(IContainerBuilder builder)
         {
             builder.RegisterInstance(Camera.main.transform).Keyed("CameraTransform");
             builder.RegisterInstance(Camera.main);
 
             builder.RegisterInstance(_helpWindow);
-            builder.RegisterInstance(_poolTransform).Keyed("SettingControlPool"); 
+            builder.RegisterInstance(_poolTransform).Keyed("SettingControlPool");
             builder.RegisterInstance(_featureModulesPanel).Keyed("FeatureModulesPanel");
             builder.RegisterInstance(_uISettingsPanel).Keyed("UISettingsPanel");
+            builder.RegisterInstance(_cinemachineMockCamera).Keyed("MockCamera");
 
             builder.RegisterMonobehaviourFactory<SettingsControlModule>(_modulePrefab);
             builder.RegisterMonobehaviourFactory<FeatureModuleGroup>(_featureGroupPrefab);
@@ -34,12 +37,14 @@ namespace MechanicsPlayground.Core
             builder.RegisterInstance(_floatControlPrefab).As<BaseSettingControl>();
 
             builder.Register<SettingControlProvider>(Lifetime.Singleton);
-            builder.RegisterEntryPoint<FeatureManager>(Lifetime.Singleton).AsSelf();
             builder.Register<SettingsRegistry>(Lifetime.Singleton);
+            builder.Register<CameraHandler>(Lifetime.Singleton);
 
+            builder.RegisterEntryPoint<FeatureManager>(Lifetime.Singleton).AsSelf();
             builder.RegisterEntryPoint<UISettingsPanelPresenter>(Lifetime.Singleton);
             builder.RegisterEntryPoint<FeatureModulesPanelPresenter>(Lifetime.Singleton);
             builder.RegisterEntryPoint<HelpWindowPresenter>(Lifetime.Singleton);
+            builder.RegisterEntryPoint<PerspectiveToOrthoCustomBlender>(Lifetime.Singleton);
 
             builder.Register<FeatureRegistry>(Lifetime.Singleton).AsImplementedInterfaces();
         }
