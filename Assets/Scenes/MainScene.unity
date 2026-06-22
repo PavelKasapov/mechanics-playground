@@ -666,7 +666,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -3.9030101, y: 10, z: -3.9030101}
+  m_LocalPosition: {x: -3.9030101, y: 60, z: -3.9030101}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1380,7 +1380,7 @@ Transform:
   m_GameObject: {fileID: 571074437}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -3.9030101, y: 10, z: -3.9030101}
+  m_LocalPosition: {x: -3.9030101, y: 60, z: -3.9030101}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3099,7 +3099,6 @@ MonoBehaviour:
   _featureHelpButtonPrefab: {fileID: 6672704440593215788, guid: b6e50328b553d9c4190216d99edd7f55, type: 3}
   _floatControlPrefab: {fileID: -2478436767894940463, guid: ef3537e89c200254dad9caac0c460802, type: 3}
   _cinemachineMockCamera: {fileID: 571074438}
-  _cinemachineBrain: {fileID: 330585548}
 --- !u!4 &1421819925
 Transform:
   m_ObjectHideFlags: 0

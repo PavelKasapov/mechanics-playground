@@ -12,17 +12,20 @@ namespace MechanicsPlayground.Core
         private readonly IFeatureRegistryWritter _featureRegistry;
         private readonly CameraHandler _cameraHandler;
         private readonly CinemachineCamera _mockCamera;
+        private readonly Camera _mainCamera;
 
         public FeatureManager(
             LifetimeScope gameScope, 
             IFeatureRegistryWritter featureRegistry, 
             CameraHandler cameraHandler, 
-            [Key("MockCamera")] CinemachineCamera mockCamera)
+            [Key("MockCamera")] CinemachineCamera mockCamera,
+            Camera mainCamera)
         {
             _gameScope = gameScope;
             _featureRegistry = featureRegistry;
             _cameraHandler = cameraHandler;
             _mockCamera = mockCamera;
+            _mainCamera = mainCamera;
         }
 
         public void Initialize()
@@ -41,13 +44,13 @@ namespace MechanicsPlayground.Core
                 switch (module.FeatureCategory)
                 {
                     case FeatureCategory.Camera:
-                        if (_cameraHandler.CameraFacade == null)
+                        if (_cameraHandler.CameraFacade == null || _mockCamera.IsParticipatingInBlend())
                             break;
 
                         _mockCamera.Lens = _cameraHandler.CameraFacade.CinemachineCamera.Lens;
                         _mockCamera.ForceCameraPosition(
-                            _cameraHandler.CameraFacade.CinemachineCamera.transform.position,
-                            _cameraHandler.CameraFacade.CinemachineCamera.transform.rotation);
+                            _mainCamera.transform.position,
+                            _mainCamera.transform.rotation);
 
                         _mockCamera.Priority = 10;
                         
