@@ -1,7 +1,7 @@
 # Mechanics Playground
 
-A collection of interactive game mechanics for Unity.  
-Built as a modular toolkit and portfolio showcase.
+A modular Unity project for experimenting with game mechanics.  
+Built as a clean-architecture sandbox and portfolio piece.
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
@@ -9,63 +9,77 @@ Built as a modular toolkit and portfolio showcase.
 
 ## 📖 Overview
 
-This project is a sandbox for implementing and demonstrating various game mechanics in Unity.  
-Each mechanic is designed as a self‑contained module, making it easy to reuse, test, and extend.
+Mechanics Playground is not a game — it's a **living toolkit** where each game mechanic is a self-contained module that can be activated, swapped, and deactivated at runtime.  
+The core of the project is a **camera-agnostic system** that lets you switch between different camera behaviours (free 3D, orthographic 2D, and soon more) with smooth cinematic blends — including seamless perspective-to-orthographic transitions.
 
-The goal is to show clean architecture, modern Unity patterns, and the ability to build scalable, maintainable systems.
-
----
-
-## ✨ Features (current)
-
-- **Free 3D Camera**  
-  – First‑person style movement (WASD, Shift, Space/Ctrl)  
-  – Mouse look with configurable sensitivity and smoothing  
-  – Zoom (Z key) with smooth transitions  
-  – Cursor lock on Tab (camera rotation stops, UI becomes interactable)
-
-- **Dynamic Settings UI**  
-  – Automatically displays controls for every active module  
-  – Built with object pooling and reactive data flow (R3)  
-  – Fully modular: new modules register their own settings
-
-- **Modular Architecture**  
-  – Each feature (camera, pathfinding, etc.) lives in its own folder with its own `LifetimeScope`  
-  – Dependency injection with **VContainer**  
-  – Reactive programming with **R3**  
-  – Asynchronous operations with **UniTask**
-
-- **Centralized Settings Registry**  
-  – Reactive collections (`ObservableCollections`)  
-  – Modules can register/unregister at runtime  
-  – UI updates automatically when modules appear or disappear
+All modules are built around modern Unity patterns: dependency injection with VContainer, reactive data flows with R3, and async operations with UniTask.
 
 ---
 
-## 🎮 Controls (Free Camera)
+## ✨ Current Features
 
+### 🎥 Modular Camera System
+- **Two fully playable cameras** – Free 3D (flycam) and Orthographic 2D, each with its own movement and controls  
+- **Runtime switching** via UI – one click, instant deactivation of the old module and activation of the new one  
+- **Custom Cinemachine blending** – a specially written `PerspectiveToOrthoCustomBlender` that eliminates the jarring “projection pop” during perspective ↔ ortho transitions  
+- **Snapshot duplicator camera** – ensures smooth blending without leaving dead modules running  
+- **Unified camera access** – `CameraHandler` + `CameraFacade` provide a single public entry point to the active camera, without exposing internal module logic  
+- **Blend interruption protection** – camera switching is blocked while a blend is in progress, guaranteeing visual stability  
+
+### 🧩 True Modular Architecture
+- Every feature (camera, future player, etc.) lives in its own folder under `Features/` with its own `LifetimeScope`, scripts, and prefabs  
+- **Zero cross-feature dependencies** – modules only depend on the `Core` layer  
+- **`FeatureManager`** handles module lifecycle (activate/deactivate) and coordinates with camera blending  
+- Modules are registered via `ModuleDefinition` ScriptableObjects (automatic discovery from `Resources`)
+
+### 🕹️ Reactive Input & Settings UI
+- **InputAdapter** wraps Unity’s Input System into clean `Observable<T>` streams (move, look, zoom, etc.)  
+- **Dynamic settings panel** – when a module is activated, its settings automatically appear in the UI; when deactivated, they are removed  
+- Object pooling for settings controls, driven by reactive collections (`ObservableCollections`)  
+- Settings are applied instantly — no “Apply” buttons needed  
+
+### 🧠 Core Architecture Highlights
+- **DI Containers** – every module is a `LifetimeScope`, dependencies are injected by VContainer  
+- **Reactive state** – R3 powers UI updates, module registry, and input streams  
+- **Async-first** – `UniTask` used for blend waiting, deferred deactivation, and future async loading  
+- **Custom blend engine** – `PerspectiveToOrthoCustomBlender` works without requiring a LookAt target and maintains visual fidelity across any camera orientation  
+
+---
+
+## 🎮 Controls
+
+### Free 3D Camera
 | Key         | Action                |
 |-------------|------------------------|
 | `WASD`      | Move camera            |
-| `Shift`     | Sprint (speed boost)   |
+| `Shift`     | Sprint                 |
 | `Space`     | Move up                |
 | `Ctrl`      | Move down              |
-| `Z`         | Zoom                   |
+| `Z`         | Zoom (smooth)          |
 | `Mouse`     | Look around            |
-| `Tab`       | Show cursor / pause camera rotation |
+| `Tab`       | Toggle cursor / freeze camera rotation |
 
-*Note: When `Tab` is held, the cursor becomes visible and you can interact with UI elements.*
+### Orthographic 2D Camera
+| Key              | Action                          |
+|------------------|---------------------------------|
+| `WASD`           | Move camera                     |
+| `Shift`          | Sprint (faster movement)        |
+| `Mouse Scroll`   | Zoom in/out                     |
+| `Mouse Cursor`   | Move to screen edge → camera pans in that direction |
+
+*Note: In the Ortho 2D camera, moving the mouse cursor to the edges of the screen automatically scrolls the view. This works alongside WASD movement.*
 
 ---
 
 ## 🧰 Tech Stack
 
 - **Unity 6 (6000.0.x)**  
-- **VContainer** – Dependency injection  
-- **R3** – Reactive Extensions  
-- **UniTask** – Async operations  
-- **ObservableCollections** – Reactive collections  
-- **Cinemachine** (planned for advanced camera blending)
+- **VContainer** – dependency injection  
+- **R3** – reactive programming  
+- **UniTask** – async/await for Unity  
+- **ObservableCollections** – reactive collections  
+- **Cinemachine** – virtual cameras and custom blending  
+- **Input System** – unified input handling  
 
 ---
 
@@ -75,52 +89,48 @@ The goal is to show clean architecture, modern Unity patterns, and the ability t
   - `Core/` – shared code (interfaces, base classes, registry)
   - `Features/` – self‑contained modules
     - `FreeCamera3D/` – example feature
-      - `Scripts/`
-      - `Prefabs/`
-      - `Settings/`
-      - `Input/`
+    - `Ortho2DCamera/`
+    - `... (future modules)`
   - `GlobalArt/` – shared visual assets
   - `Scenes/` – demo scenes
 
-Each feature folder contains its own `Scripts`, `Prefabs`, `Input` assets, and a `LifetimeScope` for dependency injection.
+
+Each feature folder contains its own `Scripts/`, `Prefabs/`, `Input/`, and a root `LifetimeScope`. No module knows about another.
 
 ---
 
-## 🗺️ Current Status & Roadmap
+## 🗺️ Roadmap & Next Steps
 
-I maintain a public **GitHub Project** board where you can see all tasks, priorities, and my development progress:
+The immediate focus is on **adding a player character** and expanding the camera system:
 
-👉 [View the Project Board](https://github.com/users/PavelKasapov/projects/2)
+- 🚶 **Player module** – a simple controllable capsule with basic movement  
+- 🎥 **Third-person camera** – follow cam with smooth look, integrated into the blending system  
+- 🔄 **Smart camera spawning** – when switching to a free camera or top-down view, the camera starts from a position relative to the player  
+- 🔀 **Blend stress-testing** – ensure smooth transitions between all three camera types (3D follow, free 3D, ortho 2D)  
+- 🧪 **Photo mode / free look** – when a free camera is active, player input is temporarily disabled  
 
-Planned mechanics include:
-- 2D cameras (top‑down, side‑scroller, isometric)
-- 3D third‑person camera
-- Pathfinding (A*)
-- Raycasting and grid interaction
-- Gamepad support
-- Mobile‑friendly UI
-- And many more…
+Further down the line: more player mechanics (jumping, obstacles), simple AI with 2D vision cones, or even a racing module. The modular design makes it easy to drop in any new idea.
 
 ---
 
 ## 🚀 Getting Started
 
-1. Clone the repository  
+1. Clone the repo  
    `git clone https://github.com/PavelKasapov/mechanics-playground.git`
 2. Open the project in Unity 6 (6000.0.x).
-3. Load the `MainScene` scene (or any demo scene).
-4. Press Play and start exploring.
+3. Open `MainScene`.
+4. Press Play – use UI buttons to switch between cameras and experiment.
 
 ---
 
 ## 📄 License
 
-This project is licensed under the **GNU General Public License v3.0**.  
-See the [LICENSE](LICENSE) file for details.
+Licensed under **GNU General Public License v3.0**.  
+See [LICENSE](LICENSE) for details.
 
 ---
 
 ## ✍️ About
 
-This project is part of my portfolio. It demonstrates my ability to design clean, scalable architectures and to work with modern Unity tooling.  
-If you have any questions or suggestions, feel free to [open an issue](https://github.com/PavelKasapov/mechanics-playground/issues) or contact me.
+This project is part of my portfolio. It demonstrates clean architecture, modular design, custom Cinemachine blending, and reactive UI patterns — all built with modern Unity tools.  
+Questions or ideas? [Open an issue](https://github.com/PavelKasapov/mechanics-playground/issues) or reach out.
