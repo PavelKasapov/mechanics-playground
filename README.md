@@ -16,6 +16,12 @@ All modules are built around modern Unity patterns: dependency injection with VC
 
 ---
 
+## 🌐 Try It Online
+
+👉 **[Launch WebGL Demo](https://pavelkasapov.github.io/)** – updated regularly with the latest features.
+
+---
+
 ## ✨ Current Features
 
 ### 🎥 Modular Camera System
