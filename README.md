@@ -86,14 +86,13 @@ All modules are built around modern Unity patterns: dependency injection with VC
 ## 📁 Project Structure
 
 - `Assets/`
-  - `Core/` – shared code (interfaces, base classes, registry)
-  - `Features/` – self‑contained modules
-    - `FreeCamera3D/` – example feature
-    - `Ortho2DCamera/`
+  - `Core/` – shared code (interfaces, base classes, registry, managers, custom blenders)
+  - `Features/` – self-contained modules
+    - `FreeCamera3D/` – free-flight 3D camera (WASD + mouse)
+    - `Ortho2DCamera/` – orthographic 2D camera (WASD + edge scrolling + zoom)
     - `... (future modules)`
   - `GlobalArt/` – shared visual assets
   - `Scenes/` – demo scenes
-
 
 Each feature folder contains its own `Scripts/`, `Prefabs/`, `Input/`, and a root `LifetimeScope`. No module knows about another.
 
@@ -101,8 +100,13 @@ Each feature folder contains its own `Scripts/`, `Prefabs/`, `Input/`, and a roo
 
 ## 🗺️ Roadmap & Next Steps
 
-The immediate focus is on **adding a player character** and expanding the camera system:
+I maintain a public **GitHub Project** board where you can see all tasks, priorities, and my development progress:
 
+👉 [View the Project Board](https://github.com/users/PavelKasapov/projects/2)
+
+The board is more up-to-date than this README — check it to see which features are ready, which are in progress, and what’s coming next.
+
+Immediate focus:
 - 🚶 **Player module** – a simple controllable capsule with basic movement  
 - 🎥 **Third-person camera** – follow cam with smooth look, integrated into the blending system  
 - 🔄 **Smart camera spawning** – when switching to a free camera or top-down view, the camera starts from a position relative to the player  
