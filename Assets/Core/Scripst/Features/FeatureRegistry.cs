@@ -15,7 +15,7 @@ namespace MechanicsPlayground.Core
 
         public FeatureRegistry()
         {
-            _allModules = Resources.LoadAll<ModuleDefinition>("").ToList();
+            _allModules = Resources.LoadAll<ModuleDefinition>("").Where(module => module.FeatureCategory != FeatureCategory.None).ToList();
         } 
     }
 }

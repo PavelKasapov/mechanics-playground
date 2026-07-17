@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using System.Linq;
 using Unity.Cinemachine;
 using UnityEngine;
 using VContainer;
@@ -30,7 +31,7 @@ namespace MechanicsPlayground.Core
 
         public void Initialize()
         {
-            //ActivateModule(_featureRegistry.AllModules.First(module => module.FeatureCategory == FeatureCategory.Camera));
+            //ActivateModule(_featureRegistry.AllModules.First(module => module.FeatureCategory == FeatureCategory.Camera)).Forget();
         }
 
         public async UniTaskVoid ActivateModule(ModuleDefinition module)

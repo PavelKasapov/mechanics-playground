@@ -40,7 +40,7 @@ namespace MechanicsPlayground.Core
                 foreach (var module in group)
                 {
                     var button = _featureButtonFactory.Create(groupView.transform);
-                    button.Init(module.DisplayName, () => _featureManager.ActivateModule(module));
+                    button.Init(module.DisplayName, () => _featureManager.ActivateModule(module).Forget());
                     buttons.Add(button);
                 }
 

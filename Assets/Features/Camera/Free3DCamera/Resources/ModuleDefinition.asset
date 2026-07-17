@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: FeatureManagement:MechanicsPlayground.FeatureManagement:FeatureModuleDefinition
   _scope: {fileID: 4419683392213229759, guid: 8c1f4f3dccb6b82469ac60fde2cc5518, type: 3}
   _displayName: Free 3D Camera
-  _category: 0
+  _category: 1
   _helpPrefab: {fileID: 7008464383107780171, guid: 92e412df39264984ba315749d809422b, type: 3}

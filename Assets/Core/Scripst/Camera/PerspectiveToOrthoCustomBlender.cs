@@ -68,9 +68,9 @@ namespace MechanicsPlayground.Core
                 lookAt = orthoPosition + orthoDirection * (-orthoPosition.y / orthoDirection.y);
             }
 
-            Vector3 fromTargetToCam = (orthoState.GetCorrectedPosition() - lookAt).normalized;
+            Vector3 fromTargetToCam = (orthoPosition - lookAt).normalized;
             if (fromTargetToCam == Vector3.zero)
-                fromTargetToCam = orthoState.GetFinalOrientation() * Vector3.forward;
+                fromTargetToCam = orthoDirection;
 
             float targetDistance = Mathf.Max(MinBlendDistance, orthoSize * OrthoSizeMultiplier);
 
