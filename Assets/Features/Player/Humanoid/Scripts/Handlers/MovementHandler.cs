@@ -24,7 +24,10 @@ namespace MechanicsPlayground.HumanoidPlayer
 
         public void Tick(Vector2 input, bool isSprinting = false)
         {
-            Quaternion cameraOrientation = _cameraHandler.CameraFacade.CinemachineCamera.State.GetFinalOrientation();
+            Quaternion cameraOrientation = _cameraHandler.CameraFacade != null 
+                ? _cameraHandler.CameraFacade.CinemachineCamera.State.GetFinalOrientation() 
+                : Quaternion.identity;
+
             Vector3 camForward = cameraOrientation * Vector3.forward;
             float dot = Mathf.Abs(Vector3.Dot(camForward, _planeNormal));
 

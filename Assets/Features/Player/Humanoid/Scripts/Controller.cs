@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using VContainer;
 using VContainer.Unity;
 
 namespace MechanicsPlayground.HumanoidPlayer
@@ -14,6 +15,8 @@ namespace MechanicsPlayground.HumanoidPlayer
         private readonly MovementHandler _movementHandler;
         private readonly SettingsRegistry _settingsRegistry;
         private readonly IEnumerable<ISettings> _settings;
+        private readonly PlayerPivotHandler _playerTransformHandler;
+        private readonly Transform _pivotTransform;
         private readonly CompositeDisposable _disposables = new();
 
         private Vector2 _inputMoveDelta;
@@ -23,15 +26,23 @@ namespace MechanicsPlayground.HumanoidPlayer
             InputAdapter inputAdapter, 
             MovementHandler movementHandler, 
             SettingsRegistry settingsRegistry,
-            IEnumerable<ISettings> settings)
+            IEnumerable<ISettings> settings,
+            PlayerPivotHandler playerTransformHandler,
+            [Key("PivotTransform")] Transform pivotTransform)
         {
             _inputAdapter = inputAdapter;
             _movementHandler = movementHandler;
             _settingsRegistry = settingsRegistry;
             _settings = settings;
+            _playerTransformHandler = playerTransformHandler;
+            _pivotTransform = pivotTransform;
         }
 
-        public void Dispose() =>_disposables.Dispose();
+        public void Dispose()
+        {
+            _playerTransformHandler.UnregisterPivot();
+            _disposables.Dispose();
+        }
 
         public void Initialize()
         {
@@ -40,6 +51,8 @@ namespace MechanicsPlayground.HumanoidPlayer
             _inputAdapter.Jump.Subscribe(zoomingDelta => { }).AddTo(_disposables);
 
             _settingsRegistry.RegisterModule("Humanoid Player", _settings.SelectMany(s => s.GetDescriptors()).ToList()).AddTo(_disposables);
+
+            _playerTransformHandler.RegisterPivot(_pivotTransform);
         }
 
         public void Tick()

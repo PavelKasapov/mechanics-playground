@@ -20,7 +20,7 @@ namespace MechanicsPlayground.Core
 
             ModulesByName.Add(moduleName, newGroup);
 
-            Debug.Log($"Registered settings of {ModulesByName.First().Key} module");
+            Debug.Log($"Registered settings of {moduleName} module");
 
             return Disposable.Create(() => UnregisterModule(moduleName));
         }

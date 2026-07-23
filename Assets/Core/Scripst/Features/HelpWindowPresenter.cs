@@ -47,6 +47,7 @@ namespace MechanicsPlayground.Core
             foreach (var module in _featureRegistry.AllModules)
             {
                 var moduleType = module.ScopePrefab.GetType();
+                Debug.Log($"{moduleType} {module.DisplayName}");
                 _modulesByType.Add(moduleType, module);
 
                 var _helpView = GameObject.Instantiate(module.HelpPrefab, _helpWindow.DynamicHelpArea);

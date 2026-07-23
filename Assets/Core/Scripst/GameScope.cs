@@ -39,6 +39,7 @@ namespace MechanicsPlayground.Core
             builder.Register<SettingControlProvider>(Lifetime.Singleton);
             builder.Register<SettingsRegistry>(Lifetime.Singleton);
             builder.Register<CameraHandler>(Lifetime.Singleton);
+            builder.Register<PlayerPivotHandler>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
 
             builder.RegisterEntryPoint<FeatureManager>(Lifetime.Singleton).AsSelf();
             builder.RegisterEntryPoint<UISettingsPanelPresenter>(Lifetime.Singleton);

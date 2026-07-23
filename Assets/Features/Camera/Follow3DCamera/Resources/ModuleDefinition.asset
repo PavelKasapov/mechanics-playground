@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2bcff4c143ccc3409a2f96d4338f9dc, type: 3}
+  m_Name: ModuleDefinition
+  m_EditorClassIdentifier: 
+  _scope: {fileID: -7367009228351614416, guid: 8b3776ccf95099245af072fca4efe403, type: 3}
+  _displayName: Follow 3D Camera
+  _category: 1
+  _helpPrefab: {fileID: 1240042181828161055, guid: eb08f73ed338e1e4f8cb7a6332119b5b, type: 3}
