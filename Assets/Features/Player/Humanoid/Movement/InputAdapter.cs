@@ -3,7 +3,7 @@ using ReactiveInputSystem;
 using System;
 using UnityEngine;
 
-namespace MechanicsPlayground.HumanoidPlayer
+namespace MechanicsPlayground.HumanoidMovement
 {
     public class InputAdapter : IDisposable
     {

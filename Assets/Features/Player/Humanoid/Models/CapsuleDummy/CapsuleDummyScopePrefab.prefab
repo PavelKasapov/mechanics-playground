@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 7306473528437985230}
   - component: {fileID: 6679325533044934686}
   - component: {fileID: 4867939968165243676}
+  - component: {fileID: 6243162097004667424}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -170,6 +171,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &6243162097004667424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769228575549736362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d38d715c98c5374fbb9ef5140309fd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3495306878422980705
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,9 +192,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1659026634424629976}
-  - component: {fileID: 3466057929746300272}
+  - component: {fileID: 6620350205267520254}
   m_Layer: 0
-  m_Name: HumanoidPlayerScopePrefab
+  m_Name: CapsuleDummyScopePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -203,7 +216,7 @@ Transform:
   - {fileID: 2054443278883714473}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3466057929746300272
+--- !u!114 &6620350205267520254
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -212,12 +225,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 3495306878422980705}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 396133a6055fcbf41a2996d5b506b646, type: 3}
+  m_Script: {fileID: 11500000, guid: 14ff3e9626dafa74fa3be252bd3c1d6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   parentReference:
     TypeName: 
   autoRun: 1
   autoInjectGameObjects: []
+  _movementScope: {fileID: 2556432780768782264, guid: a8f0474759d061549bee797d0cd565b8, type: 3}
+  _groundedController: {fileID: 6243162097004667424}
   _player: {fileID: 2054443278883714473}
   _pivot: {fileID: 1796534606003511541}
+  _rigidbody: {fileID: 4867939968165243676}

@@ -7,9 +7,9 @@ using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-namespace MechanicsPlayground.HumanoidPlayer
+namespace MechanicsPlayground.HumanoidMovement
 {
-    public class Controller : IInitializable, ITickable, IDisposable
+    public class Controller : IInitializable, IFixedTickable, IDisposable
     {
         private readonly InputAdapter _inputAdapter;
         private readonly MovementHandler _movementHandler;
@@ -50,14 +50,16 @@ namespace MechanicsPlayground.HumanoidPlayer
             _inputAdapter.Sprint.Subscribe(isSprinting => { _isSprinting = isSprinting; }).AddTo(_disposables);
             _inputAdapter.Jump.Subscribe(zoomingDelta => { }).AddTo(_disposables);
 
+            _inputAdapter.Jump.Subscribe(_ => _movementHandler.JumpAction()).AddTo(_disposables);
+
             _settingsRegistry.RegisterModule("Humanoid Player", _settings.SelectMany(s => s.GetDescriptors()).ToList()).AddTo(_disposables);
 
             _playerTransformHandler.RegisterPivot(_pivotTransform);
         }
 
-        public void Tick()
+        public void FixedTick()
         {
-            _movementHandler.Tick(_inputMoveDelta, _isSprinting);
+            _movementHandler.FixedTick(_inputMoveDelta, _isSprinting);
         }
     }
 }

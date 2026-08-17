@@ -10,7 +10,7 @@
                     "type": "Value",
                     "id": "420337f8-8c49-4b36-9aa5-6a392f3c6e36",
                     "expectedControlType": "Vector2",
-                    "processors": "",
+                    "processors": "NormalizeVector2",
                     "interactions": "",
                     "initialStateCheck": true
                 },

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2bcff4c143ccc3409a2f96d4338f9dc, type: 3}
   m_Name: ModuleDefinition
   m_EditorClassIdentifier: 
-  _scope: {fileID: 3466057929746300272, guid: 85126901987c6fe44b9a4361d481d2dd, type: 3}
-  _displayName: Humanoid Player
+  _scope: {fileID: 6620350205267520254, guid: 85126901987c6fe44b9a4361d481d2dd, type: 3}
+  _displayName: Capsule Dummy Player
   _category: 2
   _helpPrefab: {fileID: 1240042181828161055, guid: 49af36355207bbc4dbcac04e04ce50c6, type: 3}
