@@ -26,49 +26,48 @@ namespace MechanicsPlayground.HumanoidMovement
             _rigidbody = rigidbody;
         }
 
-        public void FixedTick(Vector2 input, bool isSprinting = false)
+        public void FixedTick(Vector2 input, bool sprintMultiplier = false)
         {
             if (input == Vector2.zero) 
             {
-                Deceleration();
+                Deceleration(0);
                 return;
             }
 
             var accelerationDirection = CalcAccelerationDirection(input);
 
-            Acceleration(accelerationDirection);
+            Acceleration(accelerationDirection, sprintMultiplier);
         }
 
-        private void Acceleration(Vector3 accelerationDirection)
+        private void Acceleration(Vector3 accelerationDirection, bool isSprinting)
         {
             var velocity = _rigidbody.linearVelocity + accelerationDirection * _movementSettings.accelerationRate.Value * Time.fixedDeltaTime;
-            if (velocity.sqrMagnitude > Mathf.Pow(_movementSettings.maxMoveSpeed.Value, 2))
+            var targetSpeed = isSprinting ? _movementSettings.maxMoveSpeed.Value * _movementSettings.sprintMultiplier.Value : _movementSettings.maxMoveSpeed.Value;
+            if (velocity.sqrMagnitude > Mathf.Pow(targetSpeed, 2))
             {
-                var verticalVelocity = velocity.y;
-                velocity.y = 0;
-
-                velocity.Normalize();
-                velocity *= _movementSettings.maxMoveSpeed.Value;
-
-                velocity += Vector3.up * verticalVelocity;
+                Deceleration(targetSpeed);
             }
-            _rigidbody.linearVelocity = velocity;
+            else
+            {
+                _rigidbody.linearVelocity = velocity;
+            }
         }
 
-        private void Deceleration()
+        private void Deceleration(float targetSpeed)
         {
             var velocity = _rigidbody.linearVelocity;
             var verticalVelocity = velocity.y;
             velocity.y = 0;
 
             var tickDeceleration = _movementSettings.accelerationRate.Value * Time.fixedDeltaTime;
-            if (velocity.sqrMagnitude > Mathf.Pow(tickDeceleration, 2))
+            if (velocity.sqrMagnitude > Mathf.Pow(targetSpeed - tickDeceleration, 2))
             {
                 velocity -= velocity.normalized * tickDeceleration;
             }
             else
             {
-                velocity = Vector3.zero;
+                velocity.Normalize();
+                velocity *= targetSpeed;
             }
             velocity += Vector3.up * verticalVelocity;
             _rigidbody.linearVelocity = velocity;
