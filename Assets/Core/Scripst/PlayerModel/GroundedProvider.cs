@@ -5,27 +5,32 @@ public class GroundedProvider : MonoBehaviour
     [SerializeField] private float _slopeAngle = 45f;
     private readonly Vector3 _planeNormal = Vector3.up;
     private float _slopeCos = 0.707f;
+    private float _maxDot = 0f;
     public bool IsGrounded { get; private set; }
+    public Vector3 GroundNormal { get; private set; } = Vector3.up;
 
     private void FixedUpdate()
     {
         IsGrounded = false;
+        _maxDot = 0f;
+        GroundNormal = Vector3.up;
     }
 
     private void OnCollisionStay(Collision collision)
     {
-        if (IsGrounded)
-            return;
-
         foreach (var contact in collision.contacts)
         {
             float dot = Vector3.Dot(contact.normal, _planeNormal);
-            bool isVertical = dot > _slopeCos;
-            if (isVertical)
+            if (dot > _maxDot)
             {
-                IsGrounded = true;
-                return;
-            }    
+                _maxDot = dot;
+
+                if (_maxDot > _slopeCos)
+                {
+                    IsGrounded = true;
+                    GroundNormal = contact.normal;
+                }
+            }
         }
     }
 

@@ -7,6 +7,7 @@ namespace MechanicsPlayground.HumanoidMovement
     public class MovementHandler
     {
         private const float Cos45 = 0.707f;
+        private const float AccelerationInAirModifier = 0.4f;
         private readonly Vector3 _planeNormal = Vector3.up;
 
         private readonly CameraHandler _cameraHandler;
@@ -41,8 +42,12 @@ namespace MechanicsPlayground.HumanoidMovement
 
         private void Acceleration(Vector3 accelerationDirection, bool isSprinting)
         {
-            var velocity = _rigidbody.linearVelocity + accelerationDirection * _movementSettings.accelerationRate.Value * Time.fixedDeltaTime;
-            var targetSpeed = isSprinting ? _movementSettings.maxMoveSpeed.Value * _movementSettings.sprintMultiplier.Value : _movementSettings.maxMoveSpeed.Value;
+            var acceleration = accelerationDirection * _movementSettings.accelerationRate.Value * (_groundedProvider.IsGrounded ? 1 : AccelerationInAirModifier) * Time.fixedDeltaTime;
+            var velocity = _rigidbody.linearVelocity + acceleration;
+            var targetSpeed = (isSprinting && _groundedProvider.IsGrounded) 
+                ? _movementSettings.maxMoveSpeed.Value * _movementSettings.sprintMultiplier.Value 
+                : _movementSettings.maxMoveSpeed.Value;
+
             if (velocity.sqrMagnitude > Mathf.Pow(targetSpeed, 2))
             {
                 Deceleration(targetSpeed);
@@ -90,7 +95,7 @@ namespace MechanicsPlayground.HumanoidMovement
 
             Vector3 right = Vector3.Cross(_planeNormal, forward).normalized;
 
-            Vector3 direction = forward * input.y + right * input.x;
+            Vector3 direction = Vector3.ProjectOnPlane(forward * input.y, _groundedProvider.GroundNormal) + /*Vector3.ProjectOnPlane(*/right * input.x/*, _groundedProvider.GroundNormal)*/;
 
             return direction;
         }
