@@ -12,6 +12,7 @@ namespace MechanicsPlayground.CapsuleDummy
         [SerializeField] private Transform _player;
         [SerializeField] private Transform _pivot;
         [SerializeField] private Rigidbody _rigidbody;
+        [SerializeField] private CharacterController _characterController;
 
         private LifetimeScope _childScope;
 
@@ -21,6 +22,7 @@ namespace MechanicsPlayground.CapsuleDummy
             builder.RegisterInstance(_pivot).Keyed("PivotTransform");
             builder.RegisterInstance(_groundedController);
             builder.RegisterInstance(_rigidbody);
+            builder.RegisterInstance(_characterController);
 
             builder.Register<IInitializable>(_ => this, Lifetime.Singleton);
             builder.Register<IDisposable>(_ => this, Lifetime.Singleton);

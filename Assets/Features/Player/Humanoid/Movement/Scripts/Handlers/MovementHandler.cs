@@ -14,57 +14,78 @@ namespace MechanicsPlayground.HumanoidMovement
         private readonly MovementSettings _movementSettings;
         private readonly GroundedProvider _groundedProvider;
         private readonly Rigidbody _rigidbody;
+        private readonly CharacterController _characterController;
+
+        private float _verticalVelocity;
+        private Vector3 _horizontalMove;
 
         public MovementHandler(
             CameraHandler cameraHandler, 
             MovementSettings movementSettings,
             GroundedProvider groundedProvider,
-            Rigidbody rigidbody)
+            Rigidbody rigidbody,
+            CharacterController characterController)
         {
             _cameraHandler = cameraHandler;
             _movementSettings = movementSettings;
             _groundedProvider = groundedProvider;
             _rigidbody = rigidbody;
+            _characterController = characterController;
         }
 
-        public void FixedTick(Vector2 input, bool sprintMultiplier = false)
+        public void FixedTick(Vector2 input, bool isSprinting = false)
         {
             if (input == Vector2.zero) 
             {
-                Deceleration(0);
-                return;
-            }
-
-            var accelerationDirection = CalcAccelerationDirection(input);
-
-            Acceleration(accelerationDirection, sprintMultiplier);
-        }
-
-        private void Acceleration(Vector3 accelerationDirection, bool isSprinting)
-        {
-            var acceleration = accelerationDirection * _movementSettings.accelerationRate.Value * (_groundedProvider.IsGrounded ? 1 : AccelerationInAirModifier) * Time.fixedDeltaTime;
-            var velocity = _rigidbody.linearVelocity + acceleration;
-            var targetSpeed = (isSprinting && _groundedProvider.IsGrounded) 
-                ? _movementSettings.maxMoveSpeed.Value * _movementSettings.sprintMultiplier.Value 
-                : _movementSettings.maxMoveSpeed.Value;
-
-            if (velocity.sqrMagnitude > Mathf.Pow(targetSpeed, 2))
-            {
-                Deceleration(targetSpeed);
+                _horizontalMove = Deceleration(0);
             }
             else
             {
-                _rigidbody.linearVelocity = velocity;
+                var accelerationDirection = CalcAccelerationDirection(input);
+                _horizontalMove = Acceleration(accelerationDirection, isSprinting);
+            }
+
+            if (_characterController.isGrounded && _verticalVelocity < 0)
+                _verticalVelocity = -2f;
+            else
+                _verticalVelocity += Physics.gravity.y * Time.deltaTime;
+
+            Debug.Log($"_characterController.isGrounded:{_characterController.isGrounded} _groundedProvider.IsGrounded:{_groundedProvider.IsGrounded}");
+
+            Vector3 motion = (_horizontalMove + Vector3.up * _verticalVelocity) * Time.deltaTime;
+            _characterController.Move(motion);
+        }
+
+        private Vector3 Acceleration(Vector3 accelerationDirection, bool isSprinting)
+        {
+            var acceleration = accelerationDirection * _movementSettings.accelerationRate.Value * (_characterController.isGrounded ? 1 : AccelerationInAirModifier) * Time.fixedDeltaTime;
+            var velocity = _characterController.velocity;
+            velocity.y = 0;
+            velocity += acceleration;
+
+            var targetSpeed = (isSprinting && _characterController.isGrounded) 
+                ? _movementSettings.maxMoveSpeed.Value * _movementSettings.sprintMultiplier.Value 
+                : _movementSettings.maxMoveSpeed.Value;
+
+            targetSpeed = _characterController.isGrounded ? targetSpeed : targetSpeed * 0.4f; //TODO
+            
+            if (velocity.sqrMagnitude > Mathf.Pow(targetSpeed, 2))
+            {
+                return Deceleration(targetSpeed);
+            }
+            else
+            {
+                return velocity;
             }
         }
 
-        private void Deceleration(float targetSpeed)
+        private Vector3 Deceleration(float targetSpeed)
         {
-            var velocity = _rigidbody.linearVelocity;
-            var verticalVelocity = velocity.y;
+            var velocity = _characterController.velocity;
             velocity.y = 0;
-
             var tickDeceleration = _movementSettings.accelerationRate.Value * Time.fixedDeltaTime;
+            tickDeceleration = _characterController.isGrounded ? tickDeceleration : tickDeceleration * AccelerationInAirModifier; //TODO
+
             if (velocity.sqrMagnitude > Mathf.Pow(targetSpeed - tickDeceleration, 2))
             {
                 velocity -= velocity.normalized * tickDeceleration;
@@ -74,8 +95,7 @@ namespace MechanicsPlayground.HumanoidMovement
                 velocity.Normalize();
                 velocity *= targetSpeed;
             }
-            velocity += Vector3.up * verticalVelocity;
-            _rigidbody.linearVelocity = velocity;
+            return velocity;
         }
 
         private Vector3 CalcAccelerationDirection(Vector2 input)
@@ -95,15 +115,15 @@ namespace MechanicsPlayground.HumanoidMovement
 
             Vector3 right = Vector3.Cross(_planeNormal, forward).normalized;
 
-            Vector3 direction = Vector3.ProjectOnPlane(forward * input.y, _groundedProvider.GroundNormal) + /*Vector3.ProjectOnPlane(*/right * input.x/*, _groundedProvider.GroundNormal)*/;
+            Vector3 direction = /*Vector3.ProjectOnPlane(*/forward * input.y/*, _groundedProvider.GroundNormal)*/ + /*Vector3.ProjectOnPlane(*/right * input.x/*, _groundedProvider.GroundNormal)*/;
 
             return direction;
         }
 
         public void JumpAction()
         {
-            if (_groundedProvider.IsGrounded)
-                _rigidbody.AddForce(Vector3.up * _movementSettings.jumpForce.Value, ForceMode.Impulse);
+            if (_characterController.isGrounded)
+                _verticalVelocity = Mathf.Sqrt(_movementSettings.jumpHeight.Value * -2f * Physics.gravity.y);
         }
     }
 }
